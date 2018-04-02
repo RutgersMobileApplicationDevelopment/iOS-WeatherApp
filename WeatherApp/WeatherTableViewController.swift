@@ -31,6 +31,15 @@ class WeatherTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
+    func getWeatherData() {
+        Alamofire.request(url).responseJSON { (responseData) -> Void in
+            if((responseData.result.value) != nil) {
+                self.weatherJson = (JSON(responseData.result.value!))
+            }
+            self.tableView.reloadData()
+        }
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -55,15 +64,6 @@ class WeatherTableViewController: UITableViewController {
         } else {
             return 0
         }
-    }
-    
-    func getWeatherData() {
-            Alamofire.request(url).responseJSON { (responseData) -> Void in
-                if((responseData.result.value) != nil) {
-                    self.weatherJson = (JSON(responseData.result.value!))
-                }
-                self.tableView.reloadData()
-            }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
